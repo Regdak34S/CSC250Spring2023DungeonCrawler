@@ -10,7 +10,7 @@ public class DungeonSetup : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.northExit.SetActive(false);
+        //hw
     }
 
     // Update is called once per frame
