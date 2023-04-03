@@ -26,6 +26,18 @@ public class PlayerController : MonoBehaviour
         {
             this.rb.AddForce(this.northExit.transform.position * movementSpeed);
         }
+        
+        if(Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            this.rb.AddForce(this.southExit.transform.position * movementSpeed);
+        }
+        
+	  if(Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            MasterData.count++;
+            SceneManager.LoadScene("DungeonRoom");
+        }
+
         if(Input.GetKeyDown(KeyCode.LeftArrow))
         {
             MasterData.count++;
