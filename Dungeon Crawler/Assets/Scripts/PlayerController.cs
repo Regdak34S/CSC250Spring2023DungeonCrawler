@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
     public GameObject northExit, southExit, eastExit, westExit;
+    public GameObject westStart, eastStart, northStart, southStart;
     public float movementSpeed = 40.0f;
     private bool isMoving;
 
@@ -14,15 +15,48 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         this.rb = this.GetComponent<Rigidbody>();
-        MasterData md = new MasterData();
         this.isMoving = false;
-        print(MasterData.whereDidIComeFrom);
+
+        if (!MasterData.whereDidIComeFrom.Equals("?"))
+        {
+            if(MasterData.whereDidIComeFrom.Equals("north"))
+            {
+                this.gameObject.transform.position = this.southExit.transform.position;
+                this.rb.AddForce(Vector3.forward * 150.0f);
+            }
+            else if (MasterData.whereDidIComeFrom.Equals("south"))
+            {
+                this.gameObject.transform.position = this.northExit.transform.position;
+                this.rb.AddForce(Vector3.back * 150.0f);
+            }
+            else if (MasterData.whereDidIComeFrom.Equals("west"))
+            {
+                this.gameObject.transform.position = this.eastExit.transform.position;
+                this.rb.AddForce(Vector3.left * 150.0f);
+            }
+            else if (MasterData.whereDidIComeFrom.Equals("east"))
+            {
+                this.gameObject.transform.position = this.westExit.transform.position;
+                this.rb.AddForce(Vector3.right * 150.0f);
+            }
+        }
+        
      
     }
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.CompareTag("center"))
+        {
+            this.rb.velocity = Vector3.zero;
+            this.rb.Sleep();
+            //this.rb.angularVelocity = Vector3.zero;
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        if(other.gameObject.CompareTag("Exit"))
+        if(other.gameObject.CompareTag("Exit") && MasterData.isExiting)
         {
             if(other.gameObject == this.northExit)
             {
@@ -40,9 +74,12 @@ public class PlayerController : MonoBehaviour
             {
                 MasterData.whereDidIComeFrom = "west";
             }
-
-            
+            MasterData.isExiting = false;
             SceneManager.LoadScene("DungeonRoom");
+        }
+        else if(other.gameObject.CompareTag("Exit") && !MasterData.isExiting)
+        {
+            MasterData.isExiting = true;
         }
     }
 
@@ -53,16 +90,22 @@ public class PlayerController : MonoBehaviour
         {
             this.rb.AddForce(this.northExit.transform.position * movementSpeed);
             this.isMoving = true;
-            
-           
         }
-
+        if(Input.GetKeyDown(KeyCode.LeftArrow) && this.isMoving == false)
+        {
+            this.rb.AddForce(this.westExit.transform.position * movementSpeed);
+            this.isMoving = true;
+        }
+        if (Input.GetKeyDown(KeyCode.RightArrow) && this.isMoving == false)
+        {
+            this.rb.AddForce(this.eastExit.transform.position * movementSpeed);
+            this.isMoving = true;
+        }
         if (Input.GetKeyDown(KeyCode.DownArrow) && this.isMoving == false)
         {
             this.rb.AddForce(this.southExit.transform.position * movementSpeed);
             this.isMoving = true;
-            
         }
-        
+
     }
 }
