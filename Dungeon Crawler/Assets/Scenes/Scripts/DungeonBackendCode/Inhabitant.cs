@@ -16,4 +16,3 @@ public class Inhabitant
         this.damage = r.Next(1, 6);
     }
 }
-

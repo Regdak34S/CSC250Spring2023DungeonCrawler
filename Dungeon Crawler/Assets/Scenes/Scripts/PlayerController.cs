@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
@@ -15,7 +14,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         this.updateExits();
 
         this.rb = this.GetComponent<Rigidbody>();
@@ -55,20 +53,20 @@ public class PlayerController : MonoBehaviour
         {
             this.northExit.SetActive(false);
         }
-        if(currentRoom.hasExit("south") == false)
+        if (currentRoom.hasExit("south") == false)
         {
             this.southExit.SetActive(false);
         }
-        if(currentRoom.hasExit("east") == false)
+        if (currentRoom.hasExit("east") == false)
         {
             this.eastExit.SetActive(false);
         }
-        if(currentRoom.hasExit("west") == false)
+        if (currentRoom.hasExit("west") == false)
         {
             this.westExit.SetActive(false);
         }
-
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("center"))
@@ -113,7 +111,7 @@ public class PlayerController : MonoBehaviour
     {
         Room currentRoom = MasterData.p.getCurrentRoom();
 
-        if(Input.GetKeyDown(KeyCode.UpArrow) && this.isMoving == false)
+        if (Input.GetKeyDown(KeyCode.UpArrow) && this.isMoving == false)
         {
             if(currentRoom.hasExit("north"))
             {
@@ -124,16 +122,16 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetKeyDown(KeyCode.LeftArrow) && this.isMoving == false)
         {
-            if(currentRoom.hasExit("west"))
+            if (currentRoom.hasExit("west"))
             {
-		    currentRoom.takeExit(MasterData.p, "west");
+                currentRoom.takeExit(MasterData.p, "west");
                 this.rb.AddForce(this.westExit.transform.position * movementSpeed);
                 this.isMoving = true;
             }
         }
         if (Input.GetKeyDown(KeyCode.RightArrow) && this.isMoving == false)
         {
-            if(currentRoom.hasExit("east"))
+            if (currentRoom.hasExit("east"))
             {
                 currentRoom.takeExit(MasterData.p, "east");
                 this.rb.AddForce(this.eastExit.transform.position * movementSpeed);
@@ -142,7 +140,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.DownArrow) && this.isMoving == false)
         {
-            if(currentRoom.hasExit("south"))
+            if (currentRoom.hasExit("south"))
             {
                 currentRoom.takeExit(MasterData.p, "south");
                 this.rb.AddForce(this.southExit.transform.position * movementSpeed);
